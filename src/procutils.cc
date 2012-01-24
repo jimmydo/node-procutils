@@ -1,3 +1,4 @@
+#include <errno.h>
 #include <iostream>
 #include <node.h>
 #include <string.h>
@@ -15,8 +16,11 @@ v8::Handle<v8::Value> ForkPty(const v8::Arguments& args) {
     int amaster;
     pid_t pid = forkpty(&amaster, NULL, NULL, NULL);
     if (pid == -1) {
-        // TODO: errno
-        return v8::ThrowException(v8::String::New("Error calling forkpty"));
+        v8::Handle<v8::String> message = v8::String::Concat(
+            v8::String::New("Error calling forkpty: "),
+            v8::String::New(strerror(errno))
+        );
+        return v8::ThrowException(message);
     }
 
     v8::Handle<v8::Array> result = v8::Array::New(2);
@@ -52,8 +56,11 @@ v8::Handle<v8::Value> Execvp(const v8::Arguments& args) {
     // value is -1.
     execvp(*execFile, argv);
 
-    // TODO: errno
-    return v8::ThrowException(v8::String::New("Error calling execvp"));
+    v8::Handle<v8::String> message = v8::String::Concat(
+        v8::String::New("Error calling execvp: "),
+        v8::String::New(strerror(errno))
+    );
+    return v8::ThrowException(message);
 }
 
 void init(v8::Handle<v8::Object> target) {
