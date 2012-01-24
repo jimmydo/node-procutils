@@ -64,8 +64,14 @@ v8::Handle<v8::Value> Execvp(const v8::Arguments& args) {
 }
 
 void init(v8::Handle<v8::Object> target) {
-    target->Set(v8::String::NewSymbol("forkpty"), v8::FunctionTemplate::New(ForkPty)->GetFunction());
-    target->Set(v8::String::NewSymbol("execvp"), v8::FunctionTemplate::New(Execvp)->GetFunction());
+    target->Set(
+        v8::String::NewSymbol("forkpty"),
+        v8::FunctionTemplate::New(ForkPty)->GetFunction()
+    );
+    target->Set(
+        v8::String::NewSymbol("execvp"),
+        v8::FunctionTemplate::New(Execvp)->GetFunction()
+    );
 }
 
 NODE_MODULE(procutils, init)
