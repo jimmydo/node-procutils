@@ -1,0 +1,8 @@
+{
+    "name": "node-procutils",
+    "description": "Bindings to forkpty() and execvp()",
+    "keywords": ["openpty", "execvp"],
+    "author": "Jimmy Do",
+    "version": "0.0.1",
+    "main": "./build/Release/procutils"
+}
